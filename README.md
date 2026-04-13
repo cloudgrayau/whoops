@@ -18,6 +18,6 @@ Replaces the default error handling in Craft CMS with whoops (PHP errors for coo
 
 **whoops** is an error handler framework for PHP. Out-of-the-box, it provides a pretty error interface that helps you debug your web projects, but at heart it's a simple yet powerful stacked error handling system - [https://github.com/filp/whoops](https://github.com/filp/whoops)
 
-The plugin comes with two different themes and has the option to load your own custom theme (CSS file) via the plugin settings.
+The plugin comes with two different themes and has the option to load your own custom theme (CSS file) via the plugin settings. If you happen to create any themes that should be included by default, please feel free to submit them.
 
 Brought to you by [Cloud Gray Pty Ltd](https://cloudgray.com.au/)
