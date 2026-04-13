@@ -1,0 +1,28 @@
+{% do view.registerAssetBundle("cloudgrayau\\utils\\assetbundles\\CloudGrayAsset") %}
+{% import "_includes/forms" as forms %}
+{% import 'cloudgrayau-utils/_macros' as macros %}
+<div id="settings">
+{{ forms.selectField({
+    label: "Theme",
+    instructions: "The default theme for whoops error handling.",
+    name: 'theme',
+    options: settings.themeOptions,
+    value: settings['theme'],
+    required: true,
+    errors: settings.getErrors('theme'),
+    warning: macros.configWarning('theme', 'whoops')
+}) }}
+{{ forms.autosuggestField({
+    label: "Custom Theme",
+    instructions: "The path to your custom theme CSS file.",
+    suggestEnvVars: true,
+    suggestAliases: true,
+    name: 'customTheme',
+    value: settings['customTheme'],
+    placeholder: '@root/src/whoops.css',
+    required: false,
+    errors: settings.getErrors('customTheme'),
+    warning: macros.configWarning('customTheme', 'whoops')
+}) }}
+</div>
+{% include 'cloudgrayau-utils/footer' %}

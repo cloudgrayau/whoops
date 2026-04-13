@@ -1,0 +1,61 @@
+body {
+  background: #000;
+  color: rgba(255,255,255,0.7);
+}
+.panel {
+  scrollbar-color: #444 #000;
+}
+header, .frame-code {
+  background-color: #000;
+}
+.frame, .details-container, .left-panel {
+  background: #111;
+}
+.frames-description {
+  background-color: #444;
+}
+.frame:not(.active):hover {
+  background: #1a1a1a;
+}
+.frame.active {
+  background: #272727;
+  color: #fff;
+}
+.frame:not(:last-child) {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background: #222 !important;
+}
+.line-highlight {
+  background: rgba(255,255,255,0.1) !important;
+}
+.rightButton {
+  color: rgba(255,255,255,0.75);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+  padding: 0.25rem 0.5rem;
+}
+.rightButton:hover {
+  color: rgba(255,255,255,0.8);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+}
+.search-for-help {
+  display: block;
+}
+#hide-error {
+  display: none;
+}
+.data-table-container label {
+  color: #bbb;
+}
+.data-table td {
+  color: #999 !important;
+}
+.details pre.sf-dump, .details pre.sf-dump .sf-dump-num, .details pre.sf-dump .sf-dump-const, .details pre.sf-dump .sf-dump-str, .details pre.sf-dump .sf-dump-note, .details pre.sf-dump .sf-dump-ref, .details pre.sf-dump .sf-dump-public, .details pre.sf-dump .sf-dump-protected, .details pre.sf-dump .sf-dump-private, .details pre.sf-dump .sf-dump-meta, .details pre.sf-dump .sf-dump-key, .details pre.sf-dump .sf-dump-index {
+  color: #777 !important;
+}
+@media (min-width: 1000px) {
+  .frames-container {
+    margin: 0;
+  }
+}

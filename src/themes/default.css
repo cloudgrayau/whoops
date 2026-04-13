@@ -1,0 +1,11 @@
+.search-for-help {
+  display: block;
+}
+#hide-error {
+  display: none;
+}
+@media (min-width: 1000px) {
+    .frames-container {
+      margin: 0;
+    }
+}

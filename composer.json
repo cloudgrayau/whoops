@@ -26,12 +26,12 @@
     "require": {
         "craftcms/cms": "^4.0|^5.0",
         "php": "^8.0|^8.2",
-        "cloudgrayau/utils": "^1.1"
-        "filp/whoops": "^2.18",
+        "cloudgrayau/utils": "^1.1",
+        "filp/whoops": "^2.18"
     },
     "autoload": {
         "psr-4": {
-          "cloudgrayau\\csp\\": "src/"
+          "cloudgrayau\\whoops\\": "src/"
         }
     },
     "extra": {
@@ -41,6 +41,6 @@
         "developerUrl": "https://cloudgray.com.au/",
         "documentationUrl": "https://github.com/cloudgrayau/whoops/blob/craft4/README.md",
         "changelogUrl": "https://raw.githubusercontent.com/cloudgrayau/whoops/craft4/CHANGELOG.md",
-        "class": "cloudgrayau\\csp\\Csp"
+        "class": "cloudgrayau\\whoops\\whoops"
     }
 }
