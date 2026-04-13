@@ -25,7 +25,7 @@ class Whoops extends Plugin {
       parent::init();
       self::$plugin = $this;
       $this->_registerComponents();
-      if (Craft::$app->getRequest()->getIsCpRequest()) {
+      if (Craft::$app->getRequest()->getIsConsoleRequest()) {
         return;
       }
       if (App::devMode()){
