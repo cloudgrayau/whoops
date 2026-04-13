@@ -1,6 +1,6 @@
-# whoops for Craft CMS 4/5
+# Whoops for Craft CMS 4/5
 
-whoops error handling for Craft CMS.
+Whoops error handling for Craft CMS.
 
 ![Screenshot](resources/whoops.png)
 

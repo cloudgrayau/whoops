@@ -35,12 +35,12 @@
         }
     },
     "extra": {
-        "name": "whoops",
+        "name": "Whoops",
         "handle": "whoops",
         "developer": "Cloud Gray Pty Ltd",
         "developerUrl": "https://cloudgray.com.au/",
         "documentationUrl": "https://github.com/cloudgrayau/whoops/blob/craft4/README.md",
         "changelogUrl": "https://raw.githubusercontent.com/cloudgrayau/whoops/craft4/CHANGELOG.md",
-        "class": "cloudgrayau\\whoops\\whoops"
+        "class": "cloudgrayau\\whoops\\Whoops"
     }
 }

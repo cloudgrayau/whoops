@@ -11,7 +11,7 @@ use craft\helpers\UrlHelper;
 
 use yii\base\Event;
 
-class whoops extends Plugin {
+class Whoops extends Plugin {
 
    public static $plugin;
    public string $schemaVersion = '1.0.0';
