@@ -1,31 +1,20 @@
 <?php
 namespace cloudgrayau\whoops\models;
 
-use craft\base\Model;
+use CraftCms\Cms\Plugin\PluginSettings;
+use CraftCms\Cms\Validation\Rules\EnvValueRule;
+use Illuminate\Validation\Rule;
 
-class Settings extends Model {
-  
-  // Static Variables
-  // =========================================================================
-  
-  public array $themeOptions = [
-    ['label' => 'Default', 'value' => 'default'],
-    ['label' => 'Dark', 'value' => 'dark']
-  ];
-  
-  // Editable Variables
-  // =========================================================================
-  
+class Settings extends PluginSettings {
+
   public string $theme = 'default';
   public string $customTheme = '';
-  
-  // Public Methods
-  // =========================================================================
 
-  public function rules(): array {
-    return [
-      [['theme','customTheme'], 'string'],
-    ];
+  public function getRules(): array {
+    return array_merge(parent::getRules(), [
+      'theme' => ['string', Rule::in(['default', 'dark'])],
+      'customTheme' => new EnvValueRule(['string']),
+    ]);
   }
-  
+
 }

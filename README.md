@@ -1,4 +1,4 @@
-# Whoops for Craft CMS 4/5
+# Whoops for Craft CMS 6
 
 Whoops error handling for Craft CMS.
 
@@ -6,11 +6,12 @@ Whoops error handling for Craft CMS.
 
 ## Requirements
 
-This plugin requires Craft CMS 4.0.0 or later.
+This plugin requires Craft CMS 6.0.0 or later.
 
 ## Installation
 
 `composer require cloudgrayau/whoops`
+`php craft plugin:install whoops`
 
 ## whoops Overview
 

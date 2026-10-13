@@ -4,66 +4,103 @@ namespace cloudgrayau\whoops;
 use cloudgrayau\whoops\models\Settings;
 use cloudgrayau\utils\UtilityHelper;
 
-use Craft;
-use craft\base\Plugin;
-use craft\helpers\App;
-use craft\helpers\UrlHelper;
+use CraftCms\Cms\Cp\SelectOptions;
+use CraftCms\Cms\Form\{Form, FormContext};
+use CraftCms\Cms\Form\Controls\{Choice, Text};
+use CraftCms\Cms\Form\Nodes\Field;
+use CraftCms\Cms\Plugin\{Plugin, PluginSettings};
+use CraftCms\Cms\Support\Env;
 
-use yii\base\Event;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+
+use function CraftCms\Cms\t;
 
 class Whoops extends Plugin {
 
-   public static $plugin;
-   public string $schemaVersion = '1.0.0';
-   public bool $hasCpSettings = true;
-   public bool $hasCpSection = false;
+  public bool $hasCpSettings = true;
+  public bool $hasCpSection = false;
 
-   // Public Methods
-   // =========================================================================
+  // Public Methods
+  // =========================================================================
 
-   public function init(): void {
-      parent::init();
-      self::$plugin = $this;
-      $this->_registerComponents();
-      if (Craft::$app->getRequest()->getIsConsoleRequest()) {
-        return;
+  public function boot(): void {
+    if (app()->runningInConsole()) {
+      return;
+    }
+    if (!app()->hasDebugModeEnabled()) {
+      return;
+    }
+    $settings = $this->getSettings();
+    $whoops = new \Whoops\Run;
+    $handler = new \Whoops\Handler\PrettyPageHandler;
+    $custom = $settings->customTheme ? Env::parse($settings->customTheme) : null;
+    if ($custom && file_exists($custom)) {
+      $file = pathinfo($custom);
+      $handler->setResourcesPath($file['dirname']);
+      $handler->addCustomCss($file['basename']);
+    } else {
+      $handler->setResourcesPath(__DIR__ . '/themes');
+      $handler->addCustomCss($settings->theme . '.css');
+    }
+    $whoops->pushHandler($handler);
+    $whoops->allowQuit(false);
+    $whoops->writeToOutput(false);
+  
+    $exceptions = $this->app->make(ExceptionHandler::class);
+    if (!method_exists($exceptions, 'renderable')) {
+      return;
+    }
+    $exceptions->renderable(function (\Throwable $e, Request $request) use ($whoops) {
+      if (
+        $request->expectsJson() ||
+        $e instanceof HttpExceptionInterface ||
+        $e instanceof HttpResponseException ||
+        $e instanceof AuthenticationException ||
+        $e instanceof ValidationException
+      ) {
+        return null; // let Laravel handle these as normal
       }
-      if (App::devMode()){
-        $whoops = new \Whoops\Run;
-        $handler = new \Whoops\Handler\PrettyPageHandler;
-        if (($this->settings->customTheme) && (file_exists(App::parseEnv($this->settings->customTheme)))){
-          $file = pathinfo(App::parseEnv($this->settings->customTheme));
-          $handler->setResourcesPath($file['dirname']);
-          $handler->addCustomCss($file['basename']);
-        } else {
-          $handler->setResourcesPath(dirname(__FILE__).'/themes');
-          $handler->addCustomCss($this->settings->theme.'.css');
-        }
-        $whoops->pushHandler($handler);
-        $whoops->register();
-      }
-   }
-   
-   // Private Methods
-   // =========================================================================
-   
-   private function _registerComponents(): void {
-      UtilityHelper::registerModule();
-   }
+      return response($whoops->handleException($e), 500, ['Content-Type' => 'text/html']);
+    });
+  }
 
-   // Protected Methods
-   // =========================================================================
+  // Protected Methods
+  // =========================================================================
 
-  protected function createSettingsModel(): ?\craft\base\Model {
+  #[\Override]
+  protected static function createSettings(): PluginSettings {
     return new Settings();
   }
-  
-  protected function settingsHtml(): ?string {
-    return Craft::$app->view->renderTemplate(
-      'whoops/settings', [
-        'settings' => $this->getSettings()
-      ]
-    );
+
+  #[\Override]
+  public function settingsForm(FormContext $context = new FormContext): ?Form {
+    return Form::make([
+      Field::make(t('Theme', category: 'whoops'), Choice::make('theme')->options([
+        ['value' => 'default', 'label' => t('Default', category: 'whoops')],
+        ['value' => 'dark', 'label' => t('Dark', category: 'whoops')],
+      ]))
+        ->instructions(t('The default theme for whoops error handling.', category: 'whoops'))
+        ->required()
+        ->warning(UtilityHelper::configWarning($this->handle, 'theme')),
+      Field::make(
+        t('Custom Theme', category: 'whoops'),
+        Text::make('customTheme')
+          ->placeholder('@root/src/whoops.css')
+          ->textExpanderTriggers(SelectOptions::getEnvTextExpanderTriggers(true))
+      )
+        ->instructions(t('The path to your custom theme CSS file.', category: 'whoops'))
+        ->warning(UtilityHelper::configWarning($this->handle, 'customTheme'))
+        ->tip(sprintf(
+            '%s',
+            t('Type `$` to choose an environment variable, or `@` to choose an alias.')
+        )),
+        UtilityHelper::footer()
+    ]);
   }
-   
+
 }
