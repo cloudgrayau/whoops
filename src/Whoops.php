@@ -5,9 +5,9 @@ use cloudgrayau\whoops\models\Settings;
 use cloudgrayau\utils\UtilityHelper;
 
 use CraftCms\Cms\Cp\SelectOptions;
-use CraftCms\Cms\Form\{Form, FormContext};
-use CraftCms\Cms\Form\Controls\{Choice, Text};
-use CraftCms\Cms\Form\Nodes\Field;
+use CraftCms\Cms\Ui\{Ui, UiContext};
+use CraftCms\Cms\Ui\Controls\{Choice, Text};
+use CraftCms\Cms\Ui\Nodes\Field;
 use CraftCms\Cms\Plugin\{Plugin, PluginSettings};
 use CraftCms\Cms\Support\Env;
 
@@ -77,9 +77,8 @@ class Whoops extends Plugin {
     return new Settings();
   }
 
-  #[\Override]
-  public function settingsForm(FormContext $context = new FormContext): ?Form {
-    return Form::make([
+  public function settingsUi(UiContext $context = new UiContext): ?Ui {
+    return Ui::make([
       Field::make(t('Theme', category: 'whoops'), Choice::make('theme')->options([
         ['value' => 'default', 'label' => t('Default', category: 'whoops')],
         ['value' => 'dark', 'label' => t('Dark', category: 'whoops')],

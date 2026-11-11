@@ -2,7 +2,7 @@
     "name": "cloudgrayau/whoops",
     "description": "Whoops error handling for Craft CMS",
     "type": "craft-plugin",
-    "version": "2.0.0-alpha.1",
+    "version": "2.0.0-beta.1",
     "keywords": [
         "craft",
         "cms",
@@ -24,9 +24,9 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^6.0.0-alpha",
+        "craftcms/cms": "^6.0.0-beta.1",
         "php": "^8.5",
-        "cloudgrayau/utils": "^2.0.0-alpha.1",
+        "cloudgrayau/utils": "^2.0.0",
         "filp/whoops": "^2.18"
     },
     "autoload": {
